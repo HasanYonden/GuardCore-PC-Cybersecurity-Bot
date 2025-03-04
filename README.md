@@ -1,5 +1,7 @@
 guardcore/
+
 ├── __init__.py
+
 ├── config/
 │   ├── __init__.py
 │   ├── settings.py
