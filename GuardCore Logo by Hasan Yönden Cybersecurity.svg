@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f8fafc" rx="20" ry="20" />
+  
+  <!-- Main Shield -->
+  <path d="M400 120c-100 0-180 40-180 40v160c0 80 80 160 180 200 100-40 180-120 180-200V160c0 0-80-40-180-40z" fill="#1d4ed8" opacity="0.9" />
+  <path d="M400 150c-80 0-150 35-150 35v140c0 70 70 130 150 170 80-40 150-100 150-170V185c0 0-70-35-150-35z" fill="#2563eb" />
+  
+  <!-- Inner Shield (Lock Symbol) -->
+  <path d="M400 200c-40 0-75 35-75 80v30h-15v120h180V310h-15v-30c0-45-35-80-75-80z" fill="#bfdbfe" />
+  <path d="M400 220c-30 0-55 25-55 60v30h110v-30c0-35-25-60-55-60z" fill="#1d4ed8" />
+  <rect x="325" y="310" width="150" height="100" rx="10" ry="10" fill="#1d4ed8" />
+  
+  <!-- Key Hole -->
+  <circle cx="400" cy="345" r="15" fill="#bfdbfe" />
+  <path d="M395 345v30h10v-30z" fill="#bfdbfe" />
+  
+  <!-- Text -->
+  <text x="400" y="465" font-family="Arial, sans-serif" font-size="40" font-weight="bold" text-anchor="middle" fill="#1e3a8a">GUARDCORE</text>
+  
+  <!-- Tagline -->
+  <text x="400" y="500" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#1e40af">HASAN YÖNDEN CYBERSECURITY</text>
+  
+  <!-- Accent Elements -->
+  <circle cx="270" cy="180" r="8" fill="#bfdbfe" opacity="0.7" />
+  <circle cx="530" cy="180" r="8" fill="#bfdbfe" opacity="0.7" />
+  <circle cx="400" cy="520" r="5" fill="#1d4ed8" opacity="0.5" />
+  <circle cx="380" cy="520" r="5" fill="#1d4ed8" opacity="0.5" />
+  <circle cx="420" cy="520" r="5" fill="#1d4ed8" opacity="0.5" />
+</svg>
