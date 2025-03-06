@@ -1,0 +1,205 @@
+# GuardCore Varsayılan Yapılandırma Dosyası
+# Bu dosya, uygulama için tüm varsayılan ayarları içerir.
+# Kullanıcı özel yapılandırması, bu dosyadaki varsayılan değerleri geçersiz kılar.
+
+# Ana sistem ayarları
+system:
+  # Başlangıç ayarları
+  startup_scan: true      # Başlangıçta otomatik tarama yapılsın mı?
+  startup_delay: 60       # Başlangıç taraması için gecikme (saniye)
+  
+  # Günlükleme ayarları
+  log_level: "INFO"        # Günlük seviyesi (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+  log_file: "guardcore.log" # Günlük dosyası adı
+  log_max_size: 10         # Günlük dosyası maksimum boyutu (MB)
+  log_backup_count: 5      # Korunacak günlük dosyası sayısı
+  
+  # Bildirim ayarları
+  notifications:
+    enabled: true          # Bildirimler etkin mi?
+    show_threats: true     # Tehdit bildirimleri gösterilsin mi?
+    show_scans: true       # Tarama bildirimleri gösterilsin mi?
+    show_updates: true     # Güncelleme bildirimleri gösterilsin mi?
+  
+  # Veritabanı ayarları
+  database:
+    path: "guardcore.db"   # SQLite veritabanı yolu
+    backup_interval: 86400 # Veritabanı yedekleme aralığı (saniye) - 24 saat
+
+# API sunucusu ayarları
+api:
+  host: "127.0.0.1"        # API sunucusu host adresi
+  port: 54321              # API sunucusu portu
+  key: ""                  # API anahtarı (boş bırakılırsa otomatik oluşturulur)
+  
+  # CORS ayarları
+  cors:
+    enabled: true          # CORS etkin mi?
+    allowed_origins:       # İzin verilen kaynaklar
+      - "http://localhost:*"
+      - "file://*"
+
+# Kullanıcı arayüzü ayarları
+ui:
+  auto_start: true         # Uygulama başlangıcında UI otomatik başlatılsın mı?
+  theme: "system"          # Tema (light, dark, system)
+  language: "auto"         # Dil (auto, en, tr, vb.)
+  minimize_to_tray: true   # Küçültüldüğünde sistem tepsisine küçülsün mü?
+  start_minimized: false   # Başlangıçta küçültülmüş olarak başlasın mı?
+
+# Modül ayarları
+modules:
+  # Koruma modülleri
+  protection:
+    enabled:                 # Etkin koruma modülleri
+      - "antimalware"         # Anti-malware modülü
+      - "firewall"            # Güvenlik duvarı modülü
+      - "zeroday"             # Sıfır-gün koruması modülü
+    
+    # Anti-malware modülü ayarları
+    antimalware:
+      realtime_protection: true         # Gerçek zamanlı koruma etkin mi?
+      heuristic_analysis: true          # Heuristik analiz etkin mi?
+      auto_action: "quarantine"         # Otomatik eylem (quarantine, remove, ask)
+      monitored_extensions:             # İzlenecek dosya uzantıları
+        - ".exe"
+        - ".dll"
+        - ".bat"
+        - ".cmd"
+        - ".ps1"
+        - ".vbs"
+        - ".js"
+        - ".jar"
+        - ".py"
+        - ".php"
+        - ".sh"
+        - ".pl"
+        - ".com"
+      signature_path: "signatures"      # İmza veritabanı yolu
+      quarantine_path: "quarantine"     # Karantina dizini yolu
+      max_file_size: 100                # Taranan maksimum dosya boyutu (MB)
+      exclusions:                       # Tarama dışında tutulacak dosya/dizinler
+        - "C:/Windows/SoftwareDistribution"
+        - "C:/Windows/WinSxS"
+      
+      scheduled_scan:                   # Zamanlanmış tarama ayarları
+        enabled: true                   # Zamanlanmış tarama etkin mi?
+        frequency: "daily"              # Sıklık (hourly, daily, weekly, monthly)
+        time: "03:00"                   # Çalışma saati (HH:MM)
+        type: "quick"                   # Tarama tipi (quick, full, custom)
+      
+      quick_scan_paths:                 # Hızlı tarama yolları
+        - "%SYSTEMROOT%/System32"
+        - "%SYSTEMROOT%/SysWOW64"
+        - "%PROGRAMFILES%"
+        - "%USERPROFILE%/Downloads"
+        - "%USERPROFILE%/Desktop"
+    
+    # Güvenlik duvarı modülü ayarları
+    firewall:
+      enabled: true                     # Güvenlik duvarı etkin mi?
+      mode: "automatic"                 # Mod (automatic, interactive, disabled)
+      block_all_incoming: false         # Tüm gelen bağlantıları engelle
+      block_all_outgoing: false         # Tüm giden bağlantıları engelle
+      
+      rules:                            # Güvenlik duvarı kuralları
+        - name: "Allow HTTP"
+          enabled: true
+          action: "allow"
+          protocol: "tcp"
+          direction: "outgoing"
+          remote_ports: [80, 443]
+        
+        - name: "Block Telnet"
+          enabled: true
+          action: "block"
+          protocol: "tcp"
+          direction: "incoming"
+          remote_ports: [23]
+      
+      # Uygulamaya özel kurallar
+      application_rules: {}
+    
+    # Sıfır-gün koruması modülü ayarları
+    zeroday:
+      behavioral_monitoring: true       # Davranışsal izleme etkin mi?
+      exploit_protection: true          # Exploit koruması etkin mi?
+      memory_protection: true           # Bellek koruması etkin mi?
+      sandbox_unknown: true             # Bilinmeyen dosyaları sandbox'ta çalıştır
+  
+  # İzleme modülleri
+  monitoring:
+    enabled:                          # Etkin izleme modülleri
+      - "network_monitor"             # Ağ izleme modülü
+      - "behavior_analyzer"           # Davranış analizi modülü
+      - "data_monitor"                # Veri izleme modülü
+    
+    # Ağ izleme modülü ayarları
+    network_monitor:
+      packet_analysis:                # Paket analizi ayarları
+        enabled: true                 # Paket analizi etkin mi?
+        capture_packets: false        # Paketleri kaydet (dikkat: disk kullanımı yüksek)
+      
+      dns_monitoring:                 # DNS izleme ayarları
+        enabled: true                 # DNS izleme etkin mi?
+        cache_dns_queries: true       # DNS sorgularını önbelleğe al
+      
+      port_scan_detection:            # Port tarama tespiti ayarları
+        enabled: true                 # Port tarama tespiti etkin mi?
+        sensitivity: "medium"         # Hassasiyet (low, medium, high)
+      
+      blocked_ips: []                 # Engellenen IP adresleri
+      blocked_domains: []             # Engellenen alan adları
+      whitelisted_ips: []             # Güvenli listeye alınan IP adresleri
+      whitelisted_domains: []         # Güvenli listeye alınan alan adları
+      
+      scheduled_scan:                 # Zamanlanmış ağ taraması ayarları
+        enabled: true                 # Zamanlanmış tarama etkin mi?
+        interval: 24                  # Tarama aralığı (saat)
+    
+    # Davranış analizi modülü ayarları
+    behavior_analyzer:
+      process_monitoring: true        # İşlem izleme etkin mi?
+      baseline_learning: true         # Temel davranış öğrenme etkin mi?
+      learning_period: 7              # Öğrenme süresi (gün)
+      anomaly_detection:              # Anomali tespiti ayarları
+        sensitivity: "medium"         # Hassasiyet (low, medium, high)
+        alert_threshold: 75           # Uyarı eşiği (%)
+    
+    # Veri izleme modülü ayarları
+    data_monitor:
+      file_integrity: true            # Dosya bütünlüğü izleme etkin mi?
+      registry_monitoring: true       # Kayıt defteri izleme etkin mi?
+      critical_data_protection: true  # Kritik veri koruması etkin mi?
+      watched_directories:            # İzlenen dizinler
+        - "%SYSTEMROOT%/System32/drivers"
+        - "%SYSTEMROOT%/System32/config"
+      watched_files:                  # İzlenen dosyalar
+        - "%SYSTEMROOT%/System32/drivers/etc/hosts"
+  
+  # Düzeltme modülleri
+  remediation:
+    enabled:                          # Etkin düzeltme modülleri
+      - "auto_repair"                 # Otomatik onarım modülü
+      - "update_manager"              # Güncelleme yöneticisi modülü
+      - "quarantine"                  # Karantina modülü
+    
+    # Otomatik onarım modülü ayarları
+    auto_repair:
+      system_file_repair: true        # Sistem dosyası onarımı etkin mi?
+      registry_repair: true           # Kayıt defteri onarımı etkin mi?
+      dns_repair: true                # DNS onarımı etkin mi?
+      auto_restore_point: true        # Otomatik geri yükleme noktası oluştur
+    
+    # Güncelleme yöneticisi modülü ayarları
+    update_manager:
+      auto_update: true               # Otomatik güncelleme etkin mi?
+      update_channel: "stable"        # Güncelleme kanalı (stable, beta)
+      update_interval: 24             # Güncelleme kontrolü aralığı (saat)
+      notify_only: false              # Sadece bildirim (otomatik indirilmesin)
+    
+    # Karantina modülü ayarları
+    quarantine:
+      auto_cleanup: true              # Otomatik temizleme etkin mi?
+      retention_days: 30              # Karantina tutma süresi (gün)
+      encryption: true                # Karantina şifreleme etkin mi?
